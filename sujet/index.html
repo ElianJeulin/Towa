@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<title>Projet Towa</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="http://www.informatics-tech.com/highlighter/prettify.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js' type='text/javascript'></script>
+<script src="http://www.informatics-tech.com/highlighter/prettify.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+<style>
+  pre.prettyprint {
+    background-color: black;
+  }
+  li.L0, li.L1, li.L2, li.L3, li.L4,
+  li.L5, li.L6, li.L7, li.L8, li.L9 {
+    list-style-type: decimal;
+    background: black;
+  } 
+  table tr th,td{
+    border:1px solid black;
+  } 
+  body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+  body {font-size:16px;}
+  .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+  .w3-half img:hover{opacity:1}
+  pre.enLigne{display: inline;}
+</style>
+<body>
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+    <div class="w3-container">
+      <h3 class="w3-padding-64"><b>IUT de Bordeaux<br/>département Info</b></h3>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#intro" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a> 
+      <a href="#jeu" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Le Jeu</a> 
+      <a href="#gui" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Testez !</a> 
+      <a href="#validez" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Validez !</a> 
+      <a href="#ia" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">IA</a> 
+      <a href="#evaluation" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Évaluation</a> 
+    </div>
+  </nav>
+
+  <!-- Top menu on small screens -->
+  <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+    <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">&#9776;</a>
+    <span>Iut info BDX</span>
+  </header>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+    <!-- Introduction -->
+    <div class="w3-container" style="margin-top:80px" id="intro">
+      <h1 class="w3-jumbo"><b>Projet Towa</b></h1>
+      <!-- <h1 class="w3-xxxlarge w3-text-red"><b>sous-titre</b></h1> -->
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+    </div>
+
+    <div class="w3-row-padding">
+      <div class="w3-half">
+        <p>Le projet Towa est votre second projet du module
+        d'algo-prog S1, après Pong. L'objectif de ce projet est de
+          gagner de l'expérience en programmation, mais aussi en algorithmique.</p>
+      </div>
+
+      <div class="w3-half">
+        <img width=80% src="img/tour.jpg">
+      </div>
+    </div>
+
+		<p>
+		  Le projet va se dérouler en deux phases :
+		  <ul>
+			<li>
+			  Phase 1 : coder les règles du jeu, c'est-à-dire
+			  les actions possibles pour un joueur.
+			  Le jeu comporte différents niveaux, que vous coderez
+			  l'un après l'autre.
+			  Cette phase se déroule individuellement.
+			  Elle prend fin le vendredi 4 décembre à 18h00.
+			</li>
+			<li>
+			  Phase 2 : coder une intelligence artificielle (IA)
+			  pour l'un des niveaux du jeu.
+			  Cette phase se déroule en binôme, et se termine
+			  le vendredi 18 décembre à 18h00.
+			</li>
+		  </ul>
+		</p>
+		<p>Un <a href="https://moodle1.u-bordeaux.fr/mod/forum/view.php?id=136077">forum</a> sur Moodle
+		  est disponible si vous avez des questions
+		  en dehors de vos séances de projet.
+		</p>
+        <p>À vous de jouer !</p>
+
+	<h2 id="jeu">1. Le Jeu</h2>
+    
+    <p>Le jeu Towa est un jeu de plateau. Il se joue sur un plateau de
+	  16 cases de côté, dont les lignes sont dénotées de 'a' à 'p',
+	  et les colonnes de 'A' à 'P'.
+	</p>
+        <img width=80% src="img/towa-gui.png">
+	<p>
+	  Deux joueurs s'affrontent : le joueur noir et le joueur blanc,
+	  chacun à leur tour. Ainsi un <em>tour de jeu</em> est uniquement constitué
+	  par une <em>action</em> d'un des deux joueurs. Le joueur noir commence.
+	</p>
+	<p>
+	  Le jeu comporte plusieurs niveaux (chacun ayant ses propres règles),
+	  de difficulté croissante :
+	  <ul>
+		<li>
+		  Niveau 1 : le joueur noir peut uniquement
+		  poser un pion, sur la case qu'il souhaite.
+		  Ce niveau ne comporte qu'un tour de jeu, donc dès que le joueur
+		  noir choisit de poser son pion sur une case existante,
+		  il gagne. Sinon, il est disqualifié et perd.
+		</li>
+		<li>
+		  Niveau 2 : les joueurs jouent alternativement. À chaque tour de jeu,
+		  le joueur peut poser un pion sur une case vide, ou sur une case où
+		  il a déjà posé un pion. En revanche il ne peut pas poser son pion
+		  sur un pion de l'adversaire.
+		  Un joueur est disqualifié s'il ne respecte pas ces règles,
+		  et perd la partie.
+		  La partie s'arrête en cas de disqualification, ou après 40 tours
+		  de jeu.
+		  Empiler les pions permet de constituer des tours, dont la hauteur est le nombre de pions.
+		</li>
+		<li>
+		  Pour connaître les niveaux suivants, il vous faudra coder...
+		  On vous explique cela ci-dessous.
+		</li>
+	  </ul>
+	</p>
+
+    <h2 id="gui">2. Testez</h2>
+    
+    <p>
+	  Nous vous fournissons une interface graphique pour jouer à Towa.
+	  Vous avez accès aux niveaux que vous avez validés uniquement,
+	  ainsi qu'au niveau suivant (celui que vous tentez de valider).
+	</p>
+
+	<p>
+	  Pour cela rendez-vous dans votre <em>dossier de projet</em>&nbsp;:
+	  <b>~/iut-remise/towa/info_s1/votre_login</b>. Vous y trouverez&nbsp;:
+	  <ul>
+		<li>
+		  <b>regles-niveau-1.txt</b> : les règles du niveau 1. À chaque
+		  nouveau niveau validé, un tel fichier sera ajouté.
+		</li>
+		<li>
+		  <b>towa-play.sh</b> :
+		  un script pour lancer le jeu, soit en mode graphique,
+		  soit en mode texte (voir ci-dessous). En fin de partie,
+		  l'<em>historique</em> est affiché dans la console.
+		</li>
+		<li>
+		   <b>depot/</b> : votre <em>code source</em>, à faire valider.
+		   Voir <a href="#validez">la section "Validez"</a> ci-dessous.
+		</li>
+	  </ul>
+	</p>
+	
+	<p>
+	  <img width="50px" src="img/attention.png">
+	  Le fait de <b>gagner une partie</b> dans le jeu
+	  (en mode graphique ou en mode texte) n'a rien à
+	  voir avec le fait de <b>valider un niveau</b>.
+	  L'interface graphique est juste là pour vous aider à comprendre les
+	  règles du niveau que vous essayez de valider.
+	  Elle ne fait pas tourner votre code : les niveaux y sont déjà codés
+	  de manière correcte pour que vous puissiez tester leur compréhension.
+	</p>
+	
+	<h3>Lancer l'interface graphique</h3>
+
+    <p>
+      <img width="50px" src="img/attention.png">
+      Attention, l'interface graphique n'est disponible que depuis
+      les machines de l'IUT&nbsp;! Donc <b>NON DISPONIBLE</b> à cause
+      de la Covid19...
+    </p>
+	<p>
+	  Pour lancer l'interface graphique, il vous suffit, dans un terminal,
+	  de vous placer dans votre dossier de projet, puis de lancer la commande : <pre>./towa-play.sh 1</pre> pour une partie au niveau 1.
+	</p>
+	<p>
+	  Dans cette interface, vous cliquez sur les cases pour y poser un pion.
+	  En particulier&nbsp;:
+	  <ul>
+		<li>vous jouez toujours le joueur noir,</li>
+		<li>le joueur blanc est une IA qui joue de manière correcte.</li>
+	  </ul>
+	</p>
+
+	<h3>Lancer l'interface texte</h3>
+
+    <p>Vous pouvez aussi jouer via une interface texte,
+      avec l'option <tt>-t</tt> : <pre>./towa-play.sh -t 1</pre>
+      L'intérêt est de pouvoir jouer depuis l'extérieur de l'IUT,
+      en vous <a href="https://intranet.iut.u-bordeaux.fr/main/doku.php?id=etudiant:departement:info:serveurssshftps">connectant sur un serveur ssh</a>.
+      En effet on ne peut pas lancer l'interface graphique sur
+      une machine externe à l'IUT.
+    </p>
+    
+
+    <h2 id="validez">3. Validez</h2>
+
+	<h3>Coder les actions possibles</h3>
+	
+    <p>
+	  Pour valider un niveau, vous devez implémenter la méthode <b>actionsPossibles</b> de la classe <b>JoueurTowa</b>&nbsp;:
+<pre class="prettyprint">
+    /**
+     * Cette méthode renvoie, pour un plateau donné et un joueur donné, toutes
+     * les actions possibles pour ce joueur.
+     *
+     * @param plateau le plateau considéré
+     * @param joueurNoir vrai si le joueur noir joue, faux si c'est le blanc
+     * @param niveau le niveau de la partie à jouer
+     * @return l'ensemble des actions possibles
+     */
+    @Override
+    public String[] actionsPossibles(Case[][] plateau, boolean joueurNoir, int niveau) {...}
+</pre>
+	  Cette fonction <b>actionsPossibles</b> doit renvoyer toutes les actions possibles
+	  pour le joueur (noir si joueurNoir est vrai) à partir du plateau donné en paramètre,
+	  et pour les règles du niveau que vous êtes en train de valider (<tt>niveau</tt> vaut 1 au début).
+	</p>
+	<p>
+	  Plus précisément, elle renvoie des <em>actions-mesures</em> de la forme
+	  "PaA,1,0" qui indiquent :
+	  <ul>
+		<li>une action, ici "PaA" pour la pose ("P") d'un pion en (a,A),</li>
+		<li>le nombre de pions noirs sur le plateau après l'action (ici 1 pion),
+		<li>le nombre de pions blancs sur le plateau après l'action (ici 0 pion).
+	  </ul>
+	</p>
+	<p>
+	  <b>Pour le niveau 1</b>, on démarre toujours d'un plateau vide, et noir joue, donc :
+	  <ul>
+		<li>les actions possibles sont la pose sur n'importe quelle case, </li>
+		<li>il y a ensuite 1 pion noir et 0 blanc.,</li>
+		<li>donc actionsPossibles() doit renvoyer le tableau (dans un ordre quelconque) : <br/>
+	  ["PaA,1,0", "PaB,1,0", "PaC,1,0", ..., "PpP,1,0"].</li>
+	  </ul>
+	</p>
+
+	<h3>Fichiers fournis</h3>
+
+	<p>
+	  Vous trouverez sur Moodle
+	  le fichier <tt>towa.zip</tt>,
+	  que vous importerez dans NetBeans.
+	</p>
+	
+	<p>
+	  Nous vous fournissons le fichier <b>JoueurTowa.java</b>, une première version du code correspondant,
+	  que vous devez compléter.
+	  Il utilise quelques fonctions utilitaires dans <b>Utils.java</b>.
+<pre class="prettyprint">
+package towa;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * Joueur implémentant les actions possibles à partir d'un plateau, pour un
+ * niveau donné.
+ */
+public class JoueurTowa implements IJoueurTowa {
+
+    /**
+     * Cette méthode renvoie, pour un plateau donné et un joueur donné, toutes
+     * les actions possibles pour ce joueur.
+     *
+     * @param plateau le plateau considéré
+     * @param joueurNoir vrai si le joueur noir joue, faux si c'est le blanc
+     * @param niveau le niveau de la partie à jouer
+     * @return l'ensemble des actions possibles
+     */
+    @Override
+    public String[] actionsPossibles(Case[][] plateau, boolean joueurNoir, int niveau) {
+        // afficher l'heure de lancement
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+        System.out.println("actionsPossibles : lancement le " + format.format(new Date()));
+        // on compte le nombre de pions sur le plateau avant action
+        final int nbPionsNoirs = nbPions(plateau, true);
+        final int nbPionsBlancs = nbPions(plateau, false);
+        // calculer les actions possibles
+        String actions[] = new String[1028];
+        int nbActions = 0;
+        // pour chaque ligne
+        for (int lig = 0; lig < Coordonnees.NB_LIGNES; lig++) {
+            // pour chaque colonne
+            for (int col = 0; col < Coordonnees.NB_COLONNES; col++) {
+                Coordonnees coord = new Coordonnees(lig, col);
+                // si la pose d'un pion de cette couleur est possible sur cette case
+                if (posePossible(plateau, coord, joueurNoir)) {
+                    // on ajoute l'action dans les actions possibles
+                    actions[nbActions] = chaineActionPose(coord, nbPionsNoirs + 1, nbPionsBlancs);
+                    nbActions++;
+                }
+            }
+        }
+        System.out.println("actionsPossibles : fin");
+        return Utils.nettoyerTableau(actions);
+    }
+
+    /**
+     * Indique s'il est possible de poser un pion sur une case pour ce plateau,
+     * ce joueur, dans ce niveau.
+     *
+     * @param plateau le plateau
+     * @param coord coordonnées de la case à considérer
+     * @param estNoir vrai ssi il s'agit du tour du joueur noir
+     * @return vrai ssi la pose d'un pion sur cette case est autorisée dans ce
+     * niveau
+     */
+    boolean posePossible(Case[][] plateau, Coordonnees coord, boolean estNoir) {
+        return false; // TODO à vous de jouer !
+    }
+
+    /**
+     * Nombre de pions d'une couleur donnée sur le plateau.
+     *
+     * @param plateau le plateau
+     * @param estNoir vrai si on compte les pions noirs, faux sinon
+     * @return le nombre de pions de cette couleur sur le plateau
+     */
+    static int nbPions(Case[][] plateau, boolean estNoir) {
+        return 0; // TODO il y en aura besoin à un moment !
+    }
+
+    /**
+     * Chaîne de caractères correspondant à une action-mesure de pose.
+     *
+     * @param coord coordonnées de la case où poser le pion
+     * @param nbPionsNoirs nombre de pions noirs si cette action était jouée
+     * @param nbPionsBlancs nombre de pions blancs si cette action était jouée
+     * @return la chaîne codant cette action-mesure
+     */
+    static String chaineActionPose(Coordonnees coord,
+            int nbPionsNoirs, int nbPionsBlancs) {
+        return "P" + coord.carLigne() + coord.carColonne() + ","
+                + nbPionsNoirs + "," + nbPionsBlancs;
+    }
+}
+</pre>
+</p>
+
+	<p>
+	  Pour le niveau 1 le plateau n'a pas besoin d'être lu car il est forcément vide.
+	  Ça ne sera pas le cas pour les niveaux suivants.
+	  Le plateau est stocké dans un tableau à 2 dimensions : <b>Case[][] plateau</b>.
+	  Chaque case de ce tableau contient un objet de type <b>Case</b>,
+	  permettant de connaître toutes les informations sur l'état de la case :
+	  <ul>
+		<li>
+		  <b>boolean tourPresente;</b> indique si une tour est présente sur la case
+		</li>
+		<li>
+		  <b>boolean estNoire;</b> indique si la tour est noire (s'il y en a une)
+		</li>
+		<li>
+		  <b>int hauteur;</b> indique la hauteur de la tour (nombre de pions)
+		</li>
+		<li>
+		  <b>int altitude;</b> et <b>int nature;</b> seront utilisés dans des niveaux supérieurs.
+		</li>
+	  </ul>
+	</p>
+
+	<p>
+	  <img width="50px" src="img/attention.png">
+	  Ne vous fiez pas à l'affichage :
+	  une case vide possède une couleur (noire ou blanche) et une hauteur,
+	  même si elles ne sont pas affichées.
+	  Pour tester si une case est vide, il faut impérativement
+	  tester si <tt>tourPresente</tt> vaut <tt>true</tt>.
+	</p>
+	
+	<h3>Tests unitaires</h3>
+	
+<p>
+La classe <b>JoueurTowaTest</b> contient des tests unitaires de base pour
+permettre de tester votre implémentation de la fonction <tt>actionsPossibles()</tt>, pour les deux premiers niveaux.</p>
+<p>
+<b>Ils devront être complétés tout au long de votre projet</b>.
+En particulier vous <b>devez</b> écrire une fonction de test pour
+la méthode <tt>actionsPossibles()</tt> pour chaque niveau,
+comme cela vous est proposé pour les deux premiers niveaux,
+et <b>garder les tests des niveaux précédents</b> (même s'ils ne passent plus).
+Tenez également à jour les tests unitaires des autres classes.
+La classe <b>JoueurTowaTest</b> devra être livrée à chaque tentative de validation.
+Ces éléments seront pris en compte lors de l'évaluation de votre projet.
+	</p>
+<p>Par exemple dans votre code validant le niveau 1,
+  vous devez avoir&nbsp;:
+<pre class="prettyprint">
+@Test
+public void testActionsPossibles() {
+    testActionsPossibles_niveau1();
+}
+</pre>
+et pour celui validant le niveau 2&nbsp;:
+<pre class="prettyprint">
+@Test
+public void testActionsPossibles() {
+    // testActionsPossibles_niveau1();
+    testActionsPossibles_niveau2();
+}
+</pre>
+etc.
+Pour chaque niveau vous proposerez au moins un plateau permettant
+d'y tester les règles de ce niveau, comme proposé 
+pour les deux premiers niveaux.
+</p>
+    <p>
+      Ainsi le codage d'un niveau doit se dérouler comme ceci&nbsp;:
+      <ol>
+	<li>lire les règles du niveau N.</li>
+	<li>coder la méthode <tt>testActionsPossibles_niveauN()</tt> avec un plateau <tt>PLATEAU_NIVEAUN</tt>. Ce test ne doit pas passer.</li>
+	<li>coder <tt>actionsPossibles()</tt> jusqu'à ce que les tests passent.</li>
+	<li>déposer votre code pour le valider (ci-dessous).</li>
+	<li>si votre code n'est pas validé, modifier vos tests unitaires pour prendre en compte le cas problématique. Vos tests ne doivent plus passer. Reprendre à l'étape 3.</li>
+      </ol>
+    </p>
+
+
+	<h3>Déposer pour valider</h3>
+	
+	<p>
+	  Une fois que vous aurez implémenté et testé les règles d'un niveau, et que voulez
+	  le valider, copiez votre répertoire <tt>towa</tt> (dans <tt>src</tt>) dans votre dépôt,
+	  sur <tt>~/iut-remise/towa/info_s1/votre_login/depot</tt>. Dans ce dossier vous devez :
+	  <ul>
+		<li>déposer votre code source, c'est-à-dire votre dossier <tt>towa/</tt> contenant :
+		  <ul>
+			<li><b>IJoueurTowa.java</b> : l'interface à implémenter. NE PAS MODIFIER.</li>
+			<li><b>JoueurTowa.java</b> : votre classe implémentant l'interface IJoueurTowa.</li>
+			<li><b>Case.java</b> : la classe stockant les données d'une case du plateau. NE PAS MODIFIER.</li>
+			<li><b>Utils.java</b> : classe contenant quelques fonctions utiles. NE PAS MODIFIER.</li>
+			<li><b>Coordonnees.java</b> : classe permettant de stocker et manipuler des coordonnées.</li>
+			<li><b>JoueurTowaTest.java</b> : tests unitaires, comme décrit ci-dessus.</li>
+			<li>vos autres classes, éventuellement.</li>
+		  </ul>
+		<li>supprimer le fichier <tt>sortie.log</tt> s'il existe (cf ci-dessous)
+	  </ul>
+	  Votre code sera analysé quelques secondes plus tard.
+	  L'analyse consiste à lancer actionsPossibles() sur un certain
+	  nombre de cas de tests (plateau et couleur de joueur) et à analyser
+	  le tableau String[] de retour à chaque fois.
+	  Dans votre code, vous pouvez (ou non) modifier le plateau
+	  passé en paramètre : sa valeur n'est pas testée après l'appel.
+	</p>
+	<p>
+	  Vous trouverez dans votre dépôt le résultat des tests de validation :
+	  <ul>
+		<li>un fichier <b>sortie.log</b> est généré, et contient ce que votre
+		  programme a écrit via System.out.println().</li>
+		<li>à la fin du fichier sortie.log un message vous indique
+		  le résultat de l'évaluation.
+		</li>
+		<li>si l'évaluation a réussi,
+		  un fichier <b>regles-niveau-N.txt</b> est apparu
+		  pour le prochain niveau N à valider.
+		  Remarquez que c'est déjà le cas pour le niveau 1 :
+		  vous avez déjà validé automatiquement le niveau 0.
+		<li>si la compilation de votre programme a échoué,
+		  un fichier <b>compilation.log</b> est généré, vous indiquant les erreurs
+		  de compilation.</li>
+	  </ul>	  
+	</p>
+
+		<p>
+		  <img width="50px" src="img/attention.png">
+		  Quand vous avez validé un niveau, nous vous conseillons de faire une
+		  sauvegarde de votre code dans un dossier séparé, pour
+		  pouvoir y revenir si vous partez dans une mauvaise direction
+		  pour coder le niveau suivant.
+	</p>
+
+	<p>
+	  Des <a href="http://info-timide.iut.u-bordeaux.fr/perso/ogauwin/towa-web/">statistiques</a> sur le nombre d'étudiants
+	  ayant atteint chaque niveau sont également disponibles.
+	  De même le podium des 3 premiers étudiants ayant validé
+	  chaque niveau sera affiché.
+	  Le niveau 0 est factice, et son podium également.
+	</p>
+
+	<h3>Revalider</h3>
+    <p>
+      Vous pouvez vérifier que votre code passe toujours
+      votre dernier niveau validé
+      (typiquement, lorsque vous nettoyez votre code une fois
+      qu'il a validé un niveau).
+      Pour cela, il faut placer un fichier vide nommé <b>revalider.txt</b>
+      dans votre dossier <b>depot</b>.
+      Vous pouvez aussi préciser dans ce fichier quel niveau
+      vous souhaitez revalider, en mettant le numéro du niveau
+      sur la première ligne.
+    </p>
+
+    <p>
+      Toute validation est définitive, donc si votre code ne passe pas
+      une revalidation, vous restez tout de même au dernier niveau validé.
+    </p>
+
+    <p>
+      Supprimez le fichier <b>revalider.txt</b> pour repasser en mode
+      validation classique.
+    </p>
+
+    <h2 id="ia">4. IA</h2>
+
+	<p>
+	  <!-- Cette partie sera accessible lors de la phase 2 du projet. -->
+	  Pour cette deuxième phase du projet, vous allez devoir coder
+	  en binôme une
+	  intelligence artificielle (IA) pour le niveau 6 de Towa,
+	  c'est-à-dire un programme qui simule le comportement d'un joueur.
+	</p>
+
+	<h3>Règles du jeu</h3>
+
+	<p>
+	  Une partie démarre d'un plateau vide.
+	  Ensuite chaque joueur effectue une action, alternativement,
+	  en commençant par le joueur noir.
+	  Les actions autorisées sont celles du niveau 6.
+	</p>
+
+	<p>
+	  La partie s'arrête :
+	  <ul>
+		<li>
+		  dès qu'un joueur effectue une action non valide (par exemple
+		  poser un pion sur une tour ennemie),
+		  auquel cas il est disqualifié&nbsp;; ou
+		</li>
+		<li>
+		  dès que 40 tours de jeux ont été effectués au total
+		  (20 actions pour chaque joueur) sans qu'il n'y ait eu de
+		  disqualification pendant ces tours.
+		</li>
+	  </ul>
+	  En particulier, la partie ne s'arrête pas si l'un des deux joueurs
+	  n'a plus de pions sur le plateau&nbsp;: il pourra toujours en poser
+	  lors de sa prochaine action.
+	</p>
+
+	<p>
+	  En fin de partie, le vainqueur est celui qui possède le plus de pions
+	  sur le plateau.
+	  Chaque joueur se voit attribuer un nombre de points&nbsp;:
+	  <ul>
+		<li>
+		  S'il n'y a pas de disqualification, chaque joueur obtient le
+		  nombre de points suivants&nbsp;:
+		  <center>
+			40 + (son nombre de pions) - (le nombre de pions de son adversaire)
+		  </center>
+		</li>
+		<li>
+		  En cas de disqualification d'un joueur, celui-ci obtient -128 points.
+		  Son adversaire obtient le nombre de points correspondant à la formule
+		  ci-dessus, en prenant le plateau juste avant la disqualification.
+		</li>
+	  </ul>
+	</p>
+
+	<h3>Déroulement</h3>
+
+	<p>
+	  Vous allez devoir coder une IA qui affrontera d'autres IA :
+	  <ul>
+		<li>
+		  une IA "tâcheron" qui joue de manière aléatoire et toujours correcte
+		  (jamais disqualifiée). Vous pourrez ainsi à tout moment tester
+		  votre IA contre un tâcheron en déposant votre code,
+		  comme expliqué ci-dessous.
+		</li>
+		<li>
+		  les IA de vos camarades lors de "simulations" quotidiennes,
+		  auxquelles vous pourrez participer si vous le souhaitez.
+		  Une simulation consiste en un tournoi où chaque participant
+		  affronte tous les autres, chacun à son tour,
+		  une fois comme joueur noir et une fois comme joueur blanc.
+		  Chaque participant se voit attribuer comme score la
+		  somme des points gagnés dans chaque partie.
+		</li>
+	  </ul>
+	  Une fois le projet terminé, une <em>finale</em> aura lieu
+	  entre toutes vos IA, et consistera en plusieurs tournois
+	  (comme pour les simulations). Le classement se basera là aussi
+	  sur la somme des points récoltés par chacun.
+	</p>
+	<p>
+	  Vous pouvez réutiliser votre code de la phase 1 ou pas, à vous de voir.
+	</p>
+	
+	<h3>Code</h3>
+
+	<p>
+	  Vous coderez votre IA dans la classe <tt>IATowa</tt>.
+	  Nous vous en fournissons une première version dans votre dossier
+	  <tt>depot/towa</tt>.
+	</p>
+
+	<img src="img/schema-go.svg"/>
+	
+	<p>
+	  Cette classe <tt>IATowa</tt> contient certains éléments
+	  pour communiquer avec le
+	  serveur (appelé <em>grand ordonnateur</em>), dont vous n'avez pas
+	  à vous soucier (et encore moins à modifier) :
+	  <ul>
+		<li>
+		  une méthode <tt>main()</tt> qui se connecte au serveur
+		  via la méthode <tt>connexion()</tt> puis
+		  lance la méthode <tt>toursDeJeu()</tt>.
+		  VOUS N'AVEZ PAS À LANCER LA MÉTHODE <tt>main()</tt>.
+		  Votre programme ne peut tourner que sur le serveur.
+		</li>
+		<li>
+		  des attributs <tt>hote</tt>, <tt>port</tt> et <tt>grandOrdo</tt>,
+		</li>
+		<li>
+		  un constructeur,
+		</li>
+		<li>
+		  une classe annexe <tt>TcpGrandOrdonnateur</tt>.
+		</li>
+	  </ul>
+	</p>
+
+	<p>
+	  <b>Le reste, par contre, est important</b> :
+	  <ul>
+		<li>
+		  l'attribut <tt>estNoir</tt> vous donne la couleur de votre joueur
+		  dans la partie : il vaut <tt>true</tt> si vous jouez noir,
+		  et <tt>false</tt> si vous jouez blanc. Il est initialisé via le serveur,
+		  vous pouvez directement l'utiliser.
+		</li>
+		<li>
+		  la méthode <tt>toursDeJeu()</tt> gère la partie, et consiste
+		  principalement en une boucle qui, alternativement :
+		  <ul>
+			<li>
+			  reçoit une action jouée par votre adversaire, et
+			</li>
+			<li>
+			  envoie votre action (obtenue via la méthode <tt>jouer()</tt>).
+			</li>
+		  </ul>
+		  Dans chacun des cas, le plateau est mis à jour via la méthode
+		  <tt>mettreAJour()</tt>.
+		</li>
+		<li>
+		  Notez que la disqualification d'un joueur est signalée
+		  à son adversaire par une action "Z"
+		  (au lieu de l'action réelle du joueur).
+		  Elle n'est pas signalée au joueur disqualifié,
+		  vous verrez donc que
+		  certains messages reçus après l'envoi des actions sont erronés,
+		  c'est normal (l'IA attend des actions de l'adversaire
+		  alors que la partie est finie).
+		</li>
+	  </ul>
+	</p>
+	<p>
+	  C'est donc <b>dans la méthode jouer() que vous coderez votre IA</b>.
+	  Pour l'instant le code présent dans cette méthode :
+	  <ul>
+		<li>
+		  crée une instance de votre classe <tt>JoueurTowa</tt>, et
+		</li>
+		<li>
+		  choisit aléatoirement une action parmi celles renvoyées
+		  par votre méthode <tt>actionsPossibles()</tt> dans cette classe.
+		</li>
+		<li>
+		  Si vous avez codé correctement les règles du niveau 6, vous obtenez
+		  donc directement un tâcheron. Si vous avez codé des niveaux au-delà
+		  du niveau 6, il vous faudra reprendre le code de ce niveau.
+		</li>
+		<li>
+		  Maintenant, à vous de faire mieux... c'est-à-dire remplacer ce choix
+		  aléatoire par un choix plus judicieux.
+		  Vous n'êtes pas obligés de vous baser sur <tt>actionsPossibles()</tt>.
+		</li>
+	  </ul>
+	  Quelques règles supplémentaires :
+	  <ul>
+		<li>
+		  votre IA dispose de 2 secondes maximum pour renvoyer son action,
+		  en incluant le temps de communication avec le serveur.
+		</li>
+		<li>
+		  votre dépôt ne doit pas dépasser 1 Mo.
+		</li>
+	  </ul>
+	</p>
+
+	<h3>Déposer pour tester</h3>
+
+	<p>
+	  Pour tester votre IA contre un tâcheron,
+	  il faut tout d'abord
+	  configurer le fichier <tt>partie.xml</tt> de votre dépôt
+	  (voir le fichier <tt>partie_exemple.xml</tt> dans votre dépôt,
+	  qui doit vous servir de modèle) :
+	  <ul>
+		<li>
+		  indiquez votre adresse mail,
+		</li>
+		<li>
+		  choisissez votre couleur (noir ou blanc) :
+		  dans la balise <tt>joueurs</tt>,
+		  le premier joueur est le noir, et le second le blanc.
+		  Votre joueur est celui qui n'a pas d'attribut <tt>nom</tt>,
+		  et le tâcheron a pour nom "tacheron".
+		  En intervertissant les 2 lignes <tt>joueur</tt>
+		  vous changez ainsi votre couleur.
+		</li>
+		<li>
+		  vous pouvez enfin préciser un nombre d'exécutions
+		  (c'est-à-dire de parties) désirées, entre 1 et 9.
+		</li>
+	  </ul>
+	</p>
+	
+	<p>
+	  Pour que votre code soit testé, il faut, dans votre dossier sur Remise :
+	  <ul>
+		<li>
+		  qu'un fichier <tt>depot/towa/IATowa.java</tt> soit présent (avec droits de lecture),
+		</li>
+		<li>
+		  qu'un fichier <tt>partie.xml</tt> soit présent (avec droits de lecture),
+		</li>
+		<li>
+		  qu'il n'y ait pas de fichier <tt>partie2.log</tt>
+		  (donc à supprimer pour lancer le test).
+		</li>
+	  </ul>
+	</p>
+
+	<p>
+	  Ensuite, comme pour la première phase, le serveur fera tourner votre IA
+	  comme configuré dans le fichier <tt>partie.xml</tt>, et :
+	  <ul>
+		<li>
+		  génèrera un fichier <tt>partie2.log</tt> dans votre répertoire
+		  (et non pas dans <tt>depot/</tt>),
+		  contenant ce que votre programme a écrit sur la sortie standard
+		  (<tt>System.out</tt>),
+		</li>
+		<li>
+		  génèrera un fichier <tt>resultats_Towa_[date].txt</tt> par partie jouée,
+		  avec le résultat de la partie.
+		</li>
+	  </ul>
+	</p>
+
+	<h3>Simulation</h3>
+
+	<p>
+	  Les simulations auront lieu chaque nuit, à partir du moment où
+	  il y aura assez de participants.
+	  Les résultats sont visibles sur <a href="http://info-timide.iut.u-bordeaux.fr/perso/ogauwin/towa/simulation.html">cette page</a>.
+	  Le code considéré est celui que vous aurez déposé pour la simulation
+	  (voir ci-dessous), avant 22h. Le résultat de chaque simulation
+	  (classement, nombre de points par participant) sera diffusé le
+	  lendemain matin à 8h.
+	  L'historique des parties reste confidentiel, pour ne pas dévoiler
+	  les stratégies de chacun.
+	</p>
+
+	<p>
+	  Chaque simulation est indépendante de la précédente
+	  (les scores sont remis à zéro).
+	  Vous n'êtes pas obligés de participer aux simulations,
+	  mais cela vous permettra de mesurer votre IA à celle des autres.
+	</p>
+
+	<p>
+	  Pour participer à une simulation, copiez simplement dans
+	  le répertoire <tt>simulation</tt> votre répertoire <tt>towa</tt>
+	  contenant vos classes Java, et votre fichier <tt>partie.xml</tt>.
+	</p>
+
+	<h3>Rapport</h3>
+
+	<p>
+	  Vous devrez remettre sur Moodle un rapport de 2 pages maximum
+	  détaillant ce que fait votre IA, c'est-à-dire quelles tactiques
+	  et/ou stratégies sont mises en oeuvre.
+	  En d'autres termes, quelles sont les idées derrière votre IA ?
+	</p>
+
+	<p>
+	  Vous ne devez pas décrire <em>comment</em> elles ont été mises
+	  en oeuvre. Ainsi votre rapport n'évoquera pas la structure de votre code,
+	  les choix algorithmiques, les structures de données, etc.
+	</p>
+
+	<p>
+	  Vous devez vous limiter à ce que vous avez codé.
+	  Vous ne devez pas évoquer d'autres idées que vous n'auriez pas
+	  mises en oeuvre.
+	</p>
+	
+	
+    <h2 id="evaluation">5. Évaluation</h2>
+
+	Voici le barême pour l'évaluation du projet :
+	<ul>
+	  <li>
+		Phase 1 : 15 points
+		<ul>
+		  <li>
+			niveau atteint : 6 points
+		  </li>
+		  <li>
+			qualité du code et des algorithmes : 9 points
+		  </li>
+		</ul>
+	  </li>
+	  <li>
+		Phase 2 : 5 points
+		<ul>
+		  <li>
+			rapport : 3 points
+		  </li>
+		  <li>
+			classement en finale : 2 points
+		  </li>
+		</ul>
+	  </li>
+	</ul>
+	
+  </div> <!-- w3-main -->
+</body>
+</html>
